@@ -1,0 +1,68 @@
+﻿<Window x:Class="Laba1pickmi.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Laba1pickmi"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <!-- Визначаємо ресурси -->
+    <Window.Resources>
+        <SolidColorBrush x:Key="TexturedBrush" Color="LightGray"/>
+    </Window.Resources>
+    
+    <Grid>
+        <Button x:Name="TexturedButton"
+                Width="150" Height="150"
+                FontWeight="Bold"
+                BorderBrush="Yellow"
+                BorderThickness="1"
+                Background="LightGray">
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+                <Image Source="Image/texture.jpg"
+                       Width="40" Height="40" Margin="0,0,0,5"/>
+                <TextBlock Text="Файли" Foreground="Black" FontSize="18" FontWeight="Bold"
+                           HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Тригери для керування анімацією -->
+            <Button.Triggers>
+                <!-- При наведеннізапускаємо анімацію -->
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="rotateTransform"
+                                             Storyboard.TargetProperty="Angle"
+                                             By="360"
+                                             Duration="0:0:1"
+                                             RepeatBehavior="Forever"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+
+                <!-- При відході курсора зупиняємо анімацію -->
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="rotateTransform"
+                                             Storyboard.TargetProperty="Angle"
+                                             To="{Binding (UIElement.RenderTransform).(RotateTransform.Angle), RelativeSource={RelativeSource Self}}"
+                                             Duration="0:0:0.1"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Button.Triggers>
+
+            <Button.RenderTransform>
+                <RotateTransform x:Name="rotateTransform" Angle="0"/>
+            </Button.RenderTransform>
+            <Button.RenderTransformOrigin>0.5,0.5</Button.RenderTransformOrigin>
+
+        </Button>
+
+
+
+    </Grid>
+</Window>
